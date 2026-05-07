@@ -3,8 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "type": "commonjs",
+  "bin": {
+    "md-to-pdf": "src/md-to-pdf.js"
+  },
   "scripts": {
-    "pdf": "node src/md-to-pdf.js"
+    "pdf": "node src/md-to-pdf.js",
+    "smoke": "node src/md-to-pdf.js whitelabel examples/minimal.md --no-pdf --html dist/smoke-whitelabel.html && node src/md-to-pdf.js blacklabel examples/minimal.md --no-pdf --html dist/smoke-blacklabel.html"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
     "markdown-it": "^14.1.0",

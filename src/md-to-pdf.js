@@ -12,7 +12,7 @@ const BASE_TEMPLATES = {
   whitelabel: {
     name: "",
     documentLabel: "",
-    defaultTitle: "Relatorio",
+    defaultTitle: "Relatório",
     cssFile: "whitelabel-report.css",
     logoFile: null,
     shellClass: "wl-dashboard",
@@ -37,7 +37,7 @@ const BASE_TEMPLATES = {
   blacklabel: {
     name: "",
     documentLabel: "",
-    defaultTitle: "Relatorio",
+    defaultTitle: "Relatório",
     cssFile: "blacklabel-report.css",
     logoFile: null,
     shellClass: "bl-dashboard",
@@ -105,7 +105,7 @@ function parseArgs(argv) {
     } else if (!args.input) {
       args.input = arg;
     } else {
-      throw new Error(`Argumento nao reconhecido: ${arg}`);
+      throw new Error(`Argumento não reconhecido: ${arg}`);
     }
   }
 
@@ -116,7 +116,7 @@ function parseArgs(argv) {
   }
 
   if (!TEMPLATES[args.template]) {
-    throw new Error(`Template invalido: ${args.template}. Use: ${Object.keys(TEMPLATES).join(", ")}`);
+    throw new Error(`Template inválido: ${args.template}. Use: ${Object.keys(TEMPLATES).join(", ")}`);
   }
 
   return args;
@@ -215,8 +215,8 @@ function renderToc(headings, template) {
   if (!items) return "";
 
   return `
-    <aside class="${template.tocClass}" aria-label="Sumario do relatorio">
-      <h2>Sumario</h2>
+    <aside class="${template.tocClass}" aria-label="Sumário do relatório">
+      <h2>Sumário</h2>
       <ol>${items}</ol>
     </aside>
   `;
@@ -351,7 +351,7 @@ function renderHtml(source, inputPath, template) {
 
 async function writePdf(htmlPath, pdfPath, template) {
   const { chromium } = require("playwright");
-  const footerLabel = template.documentLabel || template.name;
+  const footerLabel = Object.hasOwn(template, "footerLabel") ? template.footerLabel : template.documentLabel || template.name;
   const browser = await chromium.launch();
   const page = await browser.newPage();
   await page.goto(pathToFileURL(htmlPath).href, { waitUntil: "networkidle" });

@@ -30,7 +30,16 @@ O HTML intermediário é útil para revisar layout, depurar estilos e ajustar o
 template antes da exportação final para PDF.
 Os diretórios `input/` e `dist/` são locais e não entram no Git.
 
-## Opcoes
+Para testar a instalação sem gerar PDF:
+
+```bash
+npm run smoke
+```
+
+Esse comando usa [examples/minimal.md](examples/minimal.md) e gera apenas HTML
+em `dist/`.
+
+## Opções
 
 - `-o, --output`: caminho do PDF de saída.
 - `--html`: caminho do HTML intermediário.
@@ -54,6 +63,9 @@ privados ou experimentais podem ficar em `src/local-templates.js`. Esse arquivo
 é ignorado pelo Git e deve exportar um objeto no mesmo formato dos templates
 internos. Os CSS/assets correspondentes também devem permanecer fora do
 versionamento.
+
+Use [docs/local-templates.example.js](docs/local-templates.example.js) como
+referência para criar esse arquivo local.
 
 ## Licença
 
