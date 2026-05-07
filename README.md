@@ -6,8 +6,8 @@ Gerador de PDF a partir de Markdown com selecao de template por linha de comando
 
 ```bash
 npm install
-node src/md-to-pdf.js whitelabel input/nome_do_md.md
-node src/md-to-pdf.js blacklabel input/nome_do_md.md
+npm run pdf -- whitelabel caminho/documento.md
+npm run pdf -- blacklabel caminho/documento.md
 ```
 
 Por padrao, os arquivos sao gerados em `dist/<template>-<nome>.html` e `dist/<template>-<nome>.pdf`.
@@ -21,13 +21,7 @@ Por padrao, os arquivos sao gerados em `dist/<template>-<nome>.html` e `dist/<te
 Exemplo:
 
 ```bash
-node src/md-to-pdf.js blacklabel input/poc-sentinel.md --html dist/blacklabel-poc-sentinel.html -o dist/blacklabel-poc-sentinel.pdf
-```
-
-Para gerar os exemplos versionados com a POC Sentinel:
-
-```bash
-npm run build:examples
+npm run pdf -- blacklabel caminho/documento.md --html dist/blacklabel-documento.html -o dist/blacklabel-documento.pdf
 ```
 
 ## Templates
@@ -37,7 +31,8 @@ npm run build:examples
 
 ## Templates locais
 
-Templates privados ou experimentais podem ficar em `src/local-templates.js`.
-Esse arquivo e ignorado pelo Git e deve exportar um objeto no mesmo formato dos
-templates internos. Os CSS/assets correspondentes tambem devem permanecer fora
-do versionamento.
+Entradas Markdown ficam fora do Git por padrao (`input/` e ignorado). Templates
+privados ou experimentais podem ficar em `src/local-templates.js`. Esse arquivo
+e ignorado pelo Git e deve exportar um objeto no mesmo formato dos templates
+internos. Os CSS/assets correspondentes tambem devem permanecer fora do
+versionamento.
