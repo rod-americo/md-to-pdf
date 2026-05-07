@@ -1,0 +1,292 @@
+:root {
+  --wl-bg: #ffffff;
+  --wl-surface: #f8fafc;
+  --wl-text: #344054;
+  --wl-muted: #667085;
+  --wl-title: #101828;
+  --wl-accent: #2563eb;
+  --wl-line: #eaecf0;
+  --wl-radius: 8px;
+  --wl-shell: min(1120px, calc(100% - 40px));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  color: var(--wl-text);
+  background: var(--wl-bg);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  line-height: 1.58;
+}
+
+a {
+  color: var(--wl-accent);
+}
+
+.wl-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--wl-surface), #ffffff 300px);
+}
+
+.wl-topbar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--wl-line);
+}
+
+.wl-topbar__inner {
+  width: var(--wl-shell);
+  min-height: 64px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.wl-brand__text {
+  color: var(--wl-title);
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.wl-topbar__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.wl-pill {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  color: var(--wl-muted);
+  background: var(--wl-surface);
+  border: 1px solid var(--wl-line);
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.wl-page {
+  width: var(--wl-shell);
+  margin: 0 auto;
+  padding: 28px 0 36px;
+}
+
+.wl-page__head {
+  margin-bottom: 22px;
+  padding: 24px 26px;
+}
+
+.wl-eyebrow {
+  margin: 0 0 8px;
+  color: var(--wl-accent);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.wl-title {
+  margin: 0;
+  color: var(--wl-title);
+  font-size: 32px;
+  line-height: 1.15;
+}
+
+.wl-report-layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.wl-panel,
+.wl-report__toc {
+  background: #ffffff;
+  border: 1px solid var(--wl-line);
+  border-radius: var(--wl-radius);
+}
+
+.wl-report__toc {
+  padding: 16px;
+}
+
+.wl-report__toc h2 {
+  margin: 0 0 10px;
+  color: var(--wl-title);
+  font-size: 14px;
+}
+
+.wl-report__toc ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--wl-muted);
+  font-size: 12px;
+}
+
+.wl-report {
+  min-width: 0;
+  padding: 26px;
+}
+
+.wl-report h2,
+.wl-report h3 {
+  color: var(--wl-title);
+  break-after: avoid;
+}
+
+.wl-report h2 {
+  margin: 30px 0 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--wl-line);
+  font-size: 21px;
+}
+
+.wl-report h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.wl-report h3 {
+  margin: 22px 0 9px;
+  font-size: 17px;
+}
+
+.wl-report p,
+.wl-report ul,
+.wl-report ol,
+.wl-report table,
+.wl-report blockquote {
+  margin-top: 0;
+  margin-bottom: 13px;
+}
+
+.wl-report p,
+.wl-report li {
+  text-align: justify;
+}
+
+.wl-report table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.wl-report th,
+.wl-report td {
+  padding: 8px 9px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--wl-line);
+}
+
+.wl-report th {
+  color: var(--wl-title);
+  background: var(--wl-surface);
+  font-size: 12px;
+}
+
+.wl-report td {
+  font-size: 13px;
+}
+
+.wl-report blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 10px 14px;
+  background: #eff6ff;
+  border-left: 4px solid var(--wl-accent);
+  border-radius: 6px;
+}
+
+.wl-page-frame {
+  display: none;
+}
+
+@media screen {
+  body {
+    padding-top: 64px;
+  }
+
+  .wl-topbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 14mm;
+}
+
+@media print {
+  body {
+    font-size: 10.5px;
+  }
+
+  .wl-topbar__inner {
+    min-height: 48px;
+  }
+
+  .wl-page {
+    width: 100%;
+    padding: 16px 0 0;
+  }
+
+  .wl-page__head {
+    padding: 12px 16px 14px;
+  }
+
+  .wl-title {
+    font-size: 24px;
+  }
+
+  .wl-report-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .wl-report__toc {
+    display: none;
+  }
+
+  .wl-page-frame {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: block;
+    border: 1px solid var(--wl-line);
+    border-radius: var(--wl-radius);
+    pointer-events: none;
+  }
+
+  .wl-report {
+    border: 0;
+    padding: 8px 16px 16px;
+  }
+
+  .wl-report h2 {
+    font-size: 16px;
+  }
+
+  .wl-report h3 {
+    font-size: 13px;
+  }
+
+  .wl-report th,
+  .wl-report td {
+    padding: 7px 8px;
+    font-size: 9.5px;
+  }
+}

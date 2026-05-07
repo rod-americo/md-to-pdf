@@ -1,0 +1,7 @@
+node_modules/
+dist/
+src/local-templates.js
+assets/
+styles/*.css
+!styles/whitelabel-report.css
+!styles/blacklabel-report.css

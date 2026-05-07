@@ -1,0 +1,15 @@
+{
+  "name": "md-to-pdf",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "build": "node src/md-to-pdf.js whitelabel input/poc-sentinel.md",
+    "build:html": "node src/md-to-pdf.js whitelabel input/poc-sentinel.md --html dist/whitelabel-poc-sentinel.html --no-pdf",
+    "build:examples": "node src/md-to-pdf.js whitelabel input/poc-sentinel.md && node src/md-to-pdf.js blacklabel input/poc-sentinel.md"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0",
+    "playwright": "^1.52.0"
+  }
+}
