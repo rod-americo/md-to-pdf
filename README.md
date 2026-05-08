@@ -1,6 +1,7 @@
 # Markdown para PDF
 
 [![CI](https://github.com/rod-americo/md-to-pdf/actions/workflows/ci.yml/badge.svg)](https://github.com/rod-americo/md-to-pdf/actions/workflows/ci.yml)
+[![Tag](https://img.shields.io/github/v/tag/rod-americo/md-to-pdf?label=tag)](https://github.com/rod-americo/md-to-pdf/releases/tag/v0.1.0)
 
 Gerador de PDF a partir de Markdown com seleção de template por linha de comando.
 
