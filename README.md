@@ -8,7 +8,7 @@ Gerador de PDF a partir de Markdown com seleção de template por linha de coman
 
 | `whitelabel` | `blacklabel` |
 | --- | --- |
-| ![Preview whitelabel](docs/preview-whitelabel.png) | ![Preview blacklabel](docs/preview-blacklabel.png) |
+| ![Preview whitelabel](docs/preview-whitelabel-pdf.png) | ![Preview blacklabel](docs/preview-blacklabel-pdf.png) |
 
 ## Requisitos
 
