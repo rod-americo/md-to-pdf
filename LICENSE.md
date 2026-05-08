@@ -1,4 +1,4 @@
-MIT License
+# MIT License
 
 Copyright (c) 2026 Rodrigo Americo Cunha de Souza
 

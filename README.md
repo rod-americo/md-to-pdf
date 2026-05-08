@@ -69,4 +69,4 @@ referência para criar esse arquivo local.
 
 ## Licença
 
-MIT.
+[MIT](LICENSE.md).
