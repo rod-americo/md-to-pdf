@@ -1,6 +1,14 @@
 # Markdown para PDF
 
+[![CI](https://github.com/rod-americo/md-to-pdf/actions/workflows/ci.yml/badge.svg)](https://github.com/rod-americo/md-to-pdf/actions/workflows/ci.yml)
+
 Gerador de PDF a partir de Markdown com seleção de template por linha de comando.
+
+## Prévia
+
+| `whitelabel` | `blacklabel` |
+| --- | --- |
+| ![Preview whitelabel](docs/preview-whitelabel.png) | ![Preview blacklabel](docs/preview-blacklabel.png) |
 
 ## Requisitos
 
@@ -21,6 +29,12 @@ npm run pdf -- whitelabel caminho/documento.md
 npm run pdf -- blacklabel caminho/documento.md
 ```
 
+Também é possível chamar a CLI diretamente:
+
+```bash
+node src/md-to-pdf.js whitelabel caminho/documento.md
+```
+
 Por padrão, o comando gera um HTML intermediário e, em seguida, o PDF:
 
 - `dist/<template>-<nome>.html`
@@ -39,11 +53,19 @@ npm run smoke
 Esse comando usa [examples/minimal.md](examples/minimal.md) e gera apenas HTML
 em `dist/`.
 
+Para testar a exportação completa para PDF:
+
+```bash
+npm run test:pdf
+```
+
 ## Opções
 
 - `-o, --output`: caminho do PDF de saída.
 - `--html`: caminho do HTML intermediário.
 - `--no-pdf`: gera apenas o HTML.
+- `--list-templates`: lista os templates disponíveis.
+- `-h, --help`: mostra a ajuda da CLI.
 
 Exemplo:
 

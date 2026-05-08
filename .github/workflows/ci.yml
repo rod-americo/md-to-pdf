@@ -28,5 +28,11 @@ jobs:
           node --check src/md-to-pdf.js
           node --check docs/local-templates.example.js
 
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
       - name: Run smoke test
         run: npm run smoke
+
+      - name: Generate test PDFs
+        run: npm run test:pdf

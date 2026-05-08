@@ -77,6 +77,28 @@ const TEMPLATES = {
   ...loadLocalTemplates(),
 };
 
+const REQUIRED_TEMPLATE_FIELDS = [
+  "defaultTitle",
+  "cssFile",
+  "shellClass",
+  "frameClass",
+  "topbarClass",
+  "topbarInnerClass",
+  "brandClass",
+  "metaClass",
+  "pillClass",
+  "pageClass",
+  "headClass",
+  "eyebrowClass",
+  "titleClass",
+  "layoutClass",
+  "tocClass",
+  "articleClass",
+  "footerFont",
+  "footerColor",
+  "themeColor",
+];
+
 const md = new MarkdownIt({
   html: false,
   linkify: true,
@@ -85,6 +107,8 @@ const md = new MarkdownIt({
 
 function parseArgs(argv) {
   const args = {
+    help: false,
+    listTemplates: false,
     template: null,
     input: null,
     output: null,
@@ -94,7 +118,11 @@ function parseArgs(argv) {
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
-    if (arg === "-o" || arg === "--output") {
+    if (arg === "-h" || arg === "--help") {
+      args.help = true;
+    } else if (arg === "--list-templates") {
+      args.listTemplates = true;
+    } else if (arg === "-o" || arg === "--output") {
       args.output = argv[++index];
     } else if (arg === "--html") {
       args.html = argv[++index];
@@ -109,10 +137,12 @@ function parseArgs(argv) {
     }
   }
 
+  if (args.help || args.listTemplates) {
+    return args;
+  }
+
   if (!args.template || !args.input) {
-    throw new Error(
-      `Uso: node src/md-to-pdf.js <template> <arquivo.md>\nTemplates: ${Object.keys(TEMPLATES).join(", ")}`,
-    );
+    throw new Error(`${renderUsage()}\n\nTemplates: ${Object.keys(TEMPLATES).join(", ")}`);
   }
 
   if (!TEMPLATES[args.template]) {
@@ -120,6 +150,74 @@ function parseArgs(argv) {
   }
 
   return args;
+}
+
+function renderUsage() {
+  return [
+    "Uso: node src/md-to-pdf.js <template> <arquivo.md> [opções]",
+    "",
+    "Opções:",
+    "  -o, --output <arquivo>    Caminho do PDF de saída",
+    "  --html <arquivo>          Caminho do HTML intermediário",
+    "  --no-pdf                  Gera apenas o HTML",
+    "  --list-templates          Lista templates disponíveis",
+    "  -h, --help                Mostra esta ajuda",
+  ].join("\n");
+}
+
+function renderTemplateList() {
+  return Object.keys(TEMPLATES).join("\n");
+}
+
+function isHexColor(value) {
+  return /^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i.test(value);
+}
+
+function validateTemplate(name, template) {
+  if (!template || typeof template !== "object" || Array.isArray(template)) {
+    throw new Error(`Template "${name}" deve ser um objeto.`);
+  }
+
+  const missingFields = REQUIRED_TEMPLATE_FIELDS.filter((field) => typeof template[field] !== "string" || !template[field]);
+  if (missingFields.length) {
+    throw new Error(`Template "${name}" está sem campos obrigatórios: ${missingFields.join(", ")}.`);
+  }
+
+  if (template.logoFile && typeof template.logoFile !== "string") {
+    throw new Error(`Template "${name}" usa logoFile inválido.`);
+  }
+
+  if (template.logoClass !== null && template.logoClass !== undefined && typeof template.logoClass !== "string") {
+    throw new Error(`Template "${name}" usa logoClass inválido.`);
+  }
+
+  if (template.bodyMode && !["markdown-reader", "markdown-window"].includes(template.bodyMode)) {
+    throw new Error(`Template "${name}" usa bodyMode inválido: ${template.bodyMode}.`);
+  }
+
+  if (template.showSourceMeta !== undefined && typeof template.showSourceMeta !== "boolean") {
+    throw new Error(`Template "${name}" usa showSourceMeta inválido.`);
+  }
+
+  if (template.footerLabel !== undefined && typeof template.footerLabel !== "string") {
+    throw new Error(`Template "${name}" usa footerLabel inválido.`);
+  }
+
+  if (!isHexColor(template.themeColor)) {
+    throw new Error(`Template "${name}" usa themeColor inválido: ${template.themeColor}.`);
+  }
+
+  const cssPath = path.join(ROOT, "styles", template.cssFile);
+  if (!fs.existsSync(cssPath)) {
+    throw new Error(`Template "${name}" aponta para CSS inexistente: styles/${template.cssFile}.`);
+  }
+
+  if (template.logoFile) {
+    const logoPath = path.join(ROOT, "assets", "img", template.logoFile);
+    if (!fs.existsSync(logoPath)) {
+      throw new Error(`Template "${name}" aponta para logo inexistente: assets/img/${template.logoFile}.`);
+    }
+  }
 }
 
 function ensureDir(filePath) {
@@ -380,7 +478,19 @@ async function writePdf(htmlPath, pdfPath, template) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+
+  if (args.help) {
+    console.log(renderUsage());
+    return;
+  }
+
+  if (args.listTemplates) {
+    console.log(renderTemplateList());
+    return;
+  }
+
   const template = TEMPLATES[args.template];
+  validateTemplate(args.template, template);
   const inputPath = path.resolve(process.cwd(), args.input);
   const source = fs.readFileSync(inputPath, "utf8");
   const baseName = path.basename(inputPath, path.extname(inputPath));

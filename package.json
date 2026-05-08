@@ -8,7 +8,8 @@
   },
   "scripts": {
     "pdf": "node src/md-to-pdf.js",
-    "smoke": "node src/md-to-pdf.js whitelabel examples/minimal.md --no-pdf --html dist/smoke-whitelabel.html && node src/md-to-pdf.js blacklabel examples/minimal.md --no-pdf --html dist/smoke-blacklabel.html"
+    "smoke": "node src/md-to-pdf.js whitelabel examples/minimal.md --no-pdf --html dist/smoke-whitelabel.html && node src/md-to-pdf.js blacklabel examples/minimal.md --no-pdf --html dist/smoke-blacklabel.html",
+    "test:pdf": "node src/md-to-pdf.js whitelabel examples/minimal.md --html dist/test-whitelabel.html -o dist/test-whitelabel.pdf && node src/md-to-pdf.js blacklabel examples/minimal.md --html dist/test-blacklabel.html -o dist/test-blacklabel.pdf"
   },
   "engines": {
     "node": ">=18"
