@@ -1,7 +1,6 @@
 # Markdown para PDF
 
-[![CI](https://github.com/rod-americo/md-to-pdf/actions/workflows/ci.yml/badge.svg)](https://github.com/rod-americo/md-to-pdf/actions/workflows/ci.yml)
-[![Tag](https://img.shields.io/github/v/tag/rod-americo/md-to-pdf?label=tag)](https://github.com/rod-americo/md-to-pdf/releases/tag/v0.1.0)
+[![CI](https://github.com/rod-americo/md-to-pdf/actions/workflows/ci.yml/badge.svg)](https://github.com/rod-americo/md-to-pdf/actions/workflows/ci.yml) [![Tag](https://img.shields.io/github/v/tag/rod-americo/md-to-pdf?label=tag)](https://github.com/rod-americo/md-to-pdf/releases/tag/v0.1.0)
 
 Gerador de PDF a partir de Markdown com seleção de template por linha de comando.
 
@@ -13,8 +12,7 @@ Gerador de PDF a partir de Markdown com seleção de template por linha de coman
 
 ## Requisitos
 
-```bash
-npm install
+```bash npm install
 ```
 
 Se a geração de PDF falhar por falta do navegador do Playwright:
@@ -25,9 +23,7 @@ npx playwright install chromium
 
 ## Uso
 
-```bash
-npm run pdf -- whitelabel caminho/documento.md
-npm run pdf -- blacklabel caminho/documento.md
+```bash npm run pdf -- whitelabel caminho/documento.md npm run pdf -- blacklabel caminho/documento.md
 ```
 
 Também é possível chamar a CLI diretamente:
@@ -41,14 +37,11 @@ Por padrão, o comando gera um HTML intermediário e, em seguida, o PDF:
 - `dist/<template>-<nome>.html`
 - `dist/<template>-<nome>.pdf`
 
-O HTML intermediário é útil para revisar layout, depurar estilos e ajustar o
-template antes da exportação final para PDF.
-Os diretórios `input/` e `dist/` são locais e não entram no Git.
+O HTML intermediário é útil para revisar layout, depurar estilos e ajustar o template antes da exportação final para PDF. Os diretórios `input/` e `dist/` são locais e não entram no Git.
 
 Para testar a instalação sem gerar PDF:
 
-```bash
-npm run smoke
+```bash npm run smoke
 ```
 
 Esse comando usa [examples/minimal.md](examples/minimal.md) e gera apenas HTML
@@ -70,8 +63,7 @@ npm run test:pdf
 
 Exemplo:
 
-```bash
-npm run pdf -- blacklabel caminho/documento.md --html dist/blacklabel-documento.html -o dist/blacklabel-documento.pdf
+```bash npm run pdf -- blacklabel caminho/documento.md --html dist/blacklabel-documento.html -o dist/blacklabel-documento.pdf
 ```
 
 ## Templates

@@ -1,7 +1,6 @@
 # Contribuindo
 
-Este projeto é pequeno e intencionalmente simples. A prioridade é manter o
-gerador previsível, fácil de clonar e fácil de adaptar localmente.
+Este projeto é pequeno e intencionalmente simples. A prioridade é manter o gerador previsível, fácil de clonar e fácil de adaptar localmente.
 
 ## Escopo versionado
 
@@ -24,9 +23,7 @@ Não devem entrar no Git:
 
 Depois de instalar dependências:
 
-```bash
-npm install
-npm run smoke
+```bash npm install npm run smoke
 ```
 
 Para testar a geração completa de PDF:
@@ -38,8 +35,7 @@ npm run pdf -- blacklabel examples/minimal.md
 
 Se o Playwright reclamar da ausência do navegador:
 
-```bash
-npx playwright install chromium
+```bash npx playwright install chromium
 ```
 
 ## Templates locais
@@ -59,5 +55,4 @@ Antes de abrir um PR:
 npm run smoke
 ```
 
-Mantenha mudanças pequenas e objetivas. Para alterações visuais, inclua no PR
-uma descrição do impacto no HTML/PDF gerado.
+Mantenha mudanças pequenas e objetivas. Para alterações visuais, inclua no PR uma descrição do impacto no HTML/PDF gerado.
