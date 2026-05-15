@@ -42,7 +42,7 @@ html {
 body {
   margin: 0;
   font-family: var(--ms-font-sans);
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.55;
   color: var(--ms-ink-700);
   background:
@@ -186,7 +186,6 @@ a {
 
 .ms-report {
   padding: var(--ms-space-5);
-  font-size: 1rem;
 }
 
 .ms-report h2,
@@ -331,7 +330,7 @@ a {
 @media print {
   body {
     background: #ffffff;
-    font-size: 12pt;
+    font-size: 11px;
   }
 
   .ms-topbar {
@@ -448,11 +447,11 @@ a {
   }
 
   .ms-report th {
-    font-size: 10pt;
+    font-size: 10px;
   }
 
   .ms-report td {
-    font-size: 9.5pt;
+    font-size: 9.5px;
     line-height: 1.45;
   }
 }
