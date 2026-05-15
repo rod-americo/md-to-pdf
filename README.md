@@ -71,6 +71,19 @@ Exemplo:
 - `whitelabel`: template neutro para uso genérico.
 - `blacklabel`: template neutro escuro.
 
+## Mermaid
+
+Blocos fenced `mermaid` são renderizados como diagramas SVG antes da exportação para PDF:
+
+````markdown
+```mermaid
+flowchart TD
+  A --> B
+```
+````
+
+O runtime do Mermaid é carregado localmente a partir de `node_modules`, sem depender de CDN durante a geração.
+
 ## Templates locais
 
 Entradas Markdown ficam fora do Git por padrão (`input/` é ignorado). Templates

@@ -7,6 +7,7 @@ const MarkdownIt = require("markdown-it");
 
 const ROOT = path.resolve(__dirname, "..");
 const LOCAL_TEMPLATES_PATH = path.join(__dirname, "local-templates.js");
+const MERMAID_BROWSER_BUNDLE = path.join(ROOT, "node_modules", "mermaid", "dist", "mermaid.min.js");
 
 const BASE_TEMPLATES = {
   whitelabel: {
@@ -232,12 +233,95 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
+const defaultFenceRenderer = md.renderer.rules.fence;
+
+md.renderer.rules.fence = (tokens, index, options, env, self) => {
+  const token = tokens[index];
+  const language = token.info ? token.info.trim().split(/\s+/)[0] : "";
+
+  if (language === "mermaid") {
+    return `<div class="mermaid">${escapeHtml(token.content)}</div>\n`;
+  }
+
+  return defaultFenceRenderer(tokens, index, options, env, self);
+};
+
 function stripMarkdown(value) {
   return value
     .replaceAll("**", "")
     .replaceAll("`", "")
     .replace(/\[(.*?)\]\(.*?\)/g, "$1")
     .trim();
+}
+
+function splitMarkdownTableRow(line) {
+  const trimmed = line.trim();
+  const withoutOuterPipes = trimmed.replace(/^\|/, "").replace(/\|$/, "");
+  const cells = [];
+  let cell = "";
+  let escaped = false;
+
+  for (const char of withoutOuterPipes) {
+    if (escaped) {
+      cell += char;
+      escaped = false;
+      continue;
+    }
+
+    if (char === "\\") {
+      cell += char;
+      escaped = true;
+      continue;
+    }
+
+    if (char === "|") {
+      cells.push(cell.trim());
+      cell = "";
+      continue;
+    }
+
+    cell += char;
+  }
+
+  cells.push(cell.trim());
+  return cells;
+}
+
+function isMarkdownTableDelimiter(line) {
+  const trimmed = line.trim();
+  if (!trimmed.includes("|")) return false;
+
+  return splitMarkdownTableRow(trimmed).every((cell) => /^:?-{3,}:?$/.test(cell));
+}
+
+function renderMarkdownTableDelimiter(cells) {
+  return `| ${cells.join(" | ")} |`;
+}
+
+function normalizeMarkdownTables(source) {
+  const lines = source.split(/\r?\n/);
+
+  for (let index = 1; index < lines.length; index += 1) {
+    if (!isMarkdownTableDelimiter(lines[index]) || !lines[index - 1].trim().includes("|")) {
+      continue;
+    }
+
+    const headerCells = splitMarkdownTableRow(lines[index - 1]);
+    const delimiterCells = splitMarkdownTableRow(lines[index]);
+
+    if (headerCells.length === delimiterCells.length) {
+      continue;
+    }
+
+    const normalizedCells = delimiterCells.slice(0, headerCells.length);
+    while (normalizedCells.length < headerCells.length) {
+      normalizedCells.push("---");
+    }
+
+    lines[index] = renderMarkdownTableDelimiter(normalizedCells);
+  }
+
+  return lines.join("\n");
 }
 
 function getTitle(source, template) {
@@ -277,6 +361,74 @@ function getReadingTime(source) {
   const minutes = Math.max(1, Math.ceil(words.length / 200));
 
   return `${minutes} min de leitura`;
+}
+
+function hasMermaidDiagrams(source) {
+  return /^```mermaid\s*$/im.test(source);
+}
+
+function renderMermaidRuntime(source) {
+  if (!hasMermaidDiagrams(source)) return "";
+  if (!fs.existsSync(MERMAID_BROWSER_BUNDLE)) {
+    throw new Error("Dependência Mermaid não encontrada. Execute: npm install");
+  }
+
+  const mermaidBundle = fs.readFileSync(MERMAID_BROWSER_BUNDLE, "utf8");
+
+  return `
+    <script>${mermaidBundle}</script>
+    <script>
+      window.addEventListener("load", async () => {
+        try {
+          mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: "strict",
+            theme: "base",
+            themeVariables: {
+              primaryColor: "#f7fbf8",
+              primaryTextColor: "#18352a",
+              primaryBorderColor: "#7ea58d",
+              lineColor: "#4f6f5d",
+              secondaryColor: "#eef6f1",
+              tertiaryColor: "#ffffff",
+              fontFamily: "Arial, sans-serif"
+            }
+          });
+          await mermaid.run({ querySelector: ".mermaid" });
+          document.documentElement.dataset.mermaidReady = "true";
+        } catch (error) {
+          document.documentElement.dataset.mermaidReady = "error";
+          document.documentElement.dataset.mermaidError = error && error.message ? error.message : String(error);
+          console.error(error);
+        }
+      });
+    </script>
+  `;
+}
+
+function renderMermaidStyles(source) {
+  if (!hasMermaidDiagrams(source)) return "";
+
+  return `
+    <style>
+      .mermaid {
+        margin: 18px 0;
+        padding: 14px;
+        overflow: visible;
+        text-align: center;
+        background: #ffffff;
+        border: 1px solid rgba(0, 69, 34, 0.16);
+        border-radius: 12px;
+      }
+
+      .mermaid svg {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+      }
+    </style>
+  `;
 }
 
 function renderBrand(template) {
@@ -363,6 +515,8 @@ function renderMarkdownReader(source, inputPath) {
 }
 
 function renderMarkdownWindow(source, inputPath) {
+  const normalizedSource = normalizeMarkdownTables(source);
+
   return `
     <article class="hub-article hub-article--rendered-markdown">
       <div class="hub-md-window" aria-label="Texto do artigo em Markdown">
@@ -371,7 +525,7 @@ function renderMarkdownWindow(source, inputPath) {
           <span class="hub-md-path">${escapeHtml(path.join("input", path.basename(inputPath)))}</span>
         </div>
         <div class="hub-md-rendered">
-          ${md.render(source)}
+          ${md.render(normalizedSource)}
         </div>
       </div>
     </article>
@@ -392,8 +546,10 @@ function renderReportBody(source, inputPath, template) {
     return renderMarkdownWindow(source, inputPath);
   }
 
+  const normalizedSource = normalizeMarkdownTables(source);
+
   return `<article class="${template.articleClass}">
-            ${md.render(source.replace(/^#\s+.+$/m, "").replace(/^Data de geração:\s*.+$/im, ""))}
+            ${md.render(normalizedSource.replace(/^#\s+.+$/m, "").replace(/^Data de geração:\s*.+$/im, ""))}
           </article>`;
 }
 
@@ -414,6 +570,8 @@ function renderHtml(source, inputPath, template) {
     <meta name="msapplication-navbutton-color" content="${escapeHtml(template.themeColor)}">
     <title>${escapeHtml(title)}</title>
     <style>${css}</style>
+    ${renderMermaidStyles(source)}
+    ${renderMermaidRuntime(source)}
   </head>
   <body>
     <div class="${template.shellClass}">
@@ -453,6 +611,17 @@ async function writePdf(htmlPath, pdfPath, template) {
   const browser = await chromium.launch();
   const page = await browser.newPage();
   await page.goto(pathToFileURL(htmlPath).href, { waitUntil: "networkidle" });
+  if (await page.locator(".mermaid").count()) {
+    await page.waitForFunction(() => document.documentElement.dataset.mermaidReady, null, { timeout: 10000 });
+    const mermaidStatus = await page.evaluate(() => ({
+      ready: document.documentElement.dataset.mermaidReady,
+      error: document.documentElement.dataset.mermaidError || "",
+    }));
+
+    if (mermaidStatus.ready !== "true") {
+      throw new Error(`Falha ao renderizar Mermaid: ${mermaidStatus.error || "erro desconhecido"}`);
+    }
+  }
   await page.pdf({
     path: pdfPath,
     format: "A4",
