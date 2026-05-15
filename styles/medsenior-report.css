@@ -1,0 +1,458 @@
+:root {
+  --ms-font-sans: "Ubuntu", Arial, Helvetica, sans-serif;
+  --ms-green-950: #00391d;
+  --ms-green-900: #004522;
+  --ms-green-800: #00733d;
+  --ms-green-400: #96ca4b;
+  --ms-green-100: #cce8a3;
+  --ms-green-050: #f5fbea;
+  --ms-ink-900: #252525;
+  --ms-ink-700: #3a3838;
+  --ms-ink-500: #737373;
+  --ms-border: #e0e0e0;
+  --ms-border-strong: #bdbdbd;
+  --ms-background: #ffffff;
+  --ms-surface: #f9fafb;
+  --ms-surface-muted: #f3f5f4;
+  --ms-red: #dd3737;
+  --ms-red-bg: #fff5f5;
+  --ms-amber-bg: #fff8ea;
+  --ms-radius-xs: 4px;
+  --ms-radius-sm: 8px;
+  --ms-shadow-sm: 0 1px 2px rgb(0 0 0 / 8%);
+  --ms-space-1: 4px;
+  --ms-space-2: 8px;
+  --ms-space-3: 12px;
+  --ms-space-4: 16px;
+  --ms-space-5: 24px;
+  --ms-space-6: 32px;
+  --ms-shell: min(1120px, calc(100% - 40px));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--ms-font-sans);
+  color: var(--ms-ink-700);
+  background: var(--ms-surface);
+}
+
+body {
+  margin: 0;
+  font-family: var(--ms-font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ms-ink-700);
+  background:
+    linear-gradient(180deg, var(--ms-green-050), #ffffff 320px),
+    var(--ms-background);
+}
+
+a {
+  color: var(--ms-green-800);
+}
+
+.ms-dashboard {
+  min-height: 100vh;
+}
+
+.ms-topbar {
+  min-height: 64px;
+  color: #ffffff;
+  background: var(--ms-green-900);
+  border-bottom: 4px solid var(--ms-green-400);
+}
+
+.ms-topbar__inner {
+  width: var(--ms-shell);
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ms-space-4);
+  margin: 0 auto;
+}
+
+.ms-brand {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ms-space-3);
+  font-weight: 700;
+}
+
+.ms-brand__logo {
+  display: block;
+  width: auto;
+  height: 38px;
+  transform: translateY(-3px);
+}
+
+.ms-topbar__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--ms-space-2);
+}
+
+.ms-pill {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--ms-space-3);
+  color: inherit;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: var(--ms-radius-xs);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ms-page {
+  width: var(--ms-shell);
+  margin: 0 auto;
+  padding: var(--ms-space-5) 0 var(--ms-space-6);
+}
+
+.ms-page__head {
+  margin-bottom: var(--ms-space-5);
+  padding: var(--ms-space-5);
+}
+
+.ms-eyebrow {
+  margin: 0 0 var(--ms-space-2);
+  color: var(--ms-green-800);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ms-title {
+  margin: 0;
+  color: var(--ms-green-900);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.ms-subtitle {
+  max-width: 900px;
+  margin: var(--ms-space-2) 0 0;
+  color: var(--ms-ink-500);
+  font-size: 15px;
+}
+
+.ms-panel {
+  min-width: 0;
+  background: var(--ms-background);
+  border: 1px solid var(--ms-border);
+  border-radius: var(--ms-radius-sm);
+  box-shadow: var(--ms-shadow-sm);
+}
+
+.ms-report-layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: var(--ms-space-4);
+  align-items: start;
+}
+
+.ms-report__toc {
+  padding: var(--ms-space-4);
+  background: var(--ms-background);
+  border: 1px solid var(--ms-border);
+  border-radius: var(--ms-radius-sm);
+  box-shadow: var(--ms-shadow-sm);
+}
+
+.ms-report__toc h2 {
+  margin: 0 0 var(--ms-space-3);
+  color: var(--ms-green-900);
+  font-size: 15px;
+}
+
+.ms-report__toc ol {
+  display: grid;
+  gap: var(--ms-space-2);
+  margin: 0;
+  padding-left: 18px;
+  color: var(--ms-ink-500);
+  font-size: 12px;
+}
+
+.ms-report {
+  padding: var(--ms-space-5);
+  font-size: 1rem;
+}
+
+.ms-report h2,
+.ms-report h3 {
+  color: var(--ms-green-900);
+  break-after: avoid;
+}
+
+.ms-report h2 {
+  margin: var(--ms-space-6) 0 var(--ms-space-3);
+  padding-top: var(--ms-space-4);
+  border-top: 1px solid var(--ms-border);
+  font-size: 21px;
+  line-height: 1.25;
+}
+
+.ms-report h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.ms-report h3 {
+  margin: var(--ms-space-5) 0 var(--ms-space-2);
+  font-size: 17px;
+}
+
+.ms-report p,
+.ms-report ul,
+.ms-report ol,
+.ms-report table {
+  margin-top: 0;
+  margin-bottom: var(--ms-space-4);
+}
+
+.ms-report p,
+.ms-report li {
+  text-align: justify;
+}
+
+.ms-report strong {
+  color: var(--ms-ink-900);
+}
+
+.ms-report code {
+  padding: 1px 4px;
+  color: var(--ms-green-900);
+  background: var(--ms-green-050);
+  border: 1px solid var(--ms-border);
+  border-radius: var(--ms-radius-xs);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.ms-report blockquote {
+  margin: 0 0 var(--ms-space-4);
+  padding: var(--ms-space-3) var(--ms-space-4);
+  color: var(--ms-ink-700);
+  background: linear-gradient(90deg, rgb(150 202 75 / 16%), var(--ms-green-050));
+  border: 1px solid rgb(0 69 34 / 10%);
+  border-left: 4px solid var(--ms-green-400);
+  border-radius: var(--ms-radius-sm);
+  box-shadow: 0 8px 18px rgb(0 69 34 / 8%);
+}
+
+.ms-report blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.ms-report ul,
+.ms-report ol {
+  padding-left: 22px;
+}
+
+.ms-report li + li {
+  margin-top: var(--ms-space-1);
+}
+
+.ms-report table {
+  width: 100%;
+  border-collapse: collapse;
+  break-inside: auto;
+  page-break-inside: auto;
+}
+
+.ms-report thead {
+  display: table-header-group;
+}
+
+.ms-report tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.ms-report th,
+.ms-report td {
+  padding: 9px 10px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--ms-border);
+}
+
+.ms-report th {
+  color: var(--ms-green-900);
+  background: var(--ms-green-050);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ms-report td {
+  color: var(--ms-ink-700);
+  font-size: 13px;
+}
+
+.ms-report tr:nth-child(even) td {
+  background: #fcfdfc;
+}
+
+.ms-page-frame {
+  display: none;
+}
+
+@media screen {
+  body {
+    padding-top: 68px;
+  }
+
+  .ms-topbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 14mm;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    font-size: 12pt;
+  }
+
+  .ms-topbar {
+    min-height: 48px;
+    border-bottom-width: 3px;
+    border-radius: var(--ms-radius-sm) var(--ms-radius-sm) 0 0;
+    overflow: hidden;
+  }
+
+  .ms-topbar__inner {
+    min-height: 48px;
+  }
+
+  .ms-brand__logo {
+    height: 28px;
+  }
+
+  .ms-pill {
+    font-size: 10px;
+  }
+
+  .ms-page {
+    width: 100%;
+    padding: 16px 0 0;
+  }
+
+  .ms-page__head {
+    margin-bottom: 8px;
+    padding: 12px 16px 14px;
+  }
+
+  .ms-title {
+    font-size: 24px;
+  }
+
+  .ms-subtitle {
+    font-size: 11px;
+  }
+
+  .ms-report-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ms-page-frame {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: block;
+    border: 1px solid var(--ms-border);
+    border-radius: var(--ms-radius-sm);
+    pointer-events: none;
+  }
+
+  .ms-report__toc {
+    display: none;
+  }
+
+  .ms-panel {
+    box-shadow: none;
+  }
+
+  .ms-report {
+    border: 0;
+    padding: 8px 16px 16px;
+  }
+
+  .ms-report p,
+  .ms-report ul,
+  .ms-report ol,
+  .ms-report table,
+  .ms-report blockquote {
+    margin-bottom: 10px;
+  }
+
+  .ms-report blockquote {
+    padding: 8px 12px;
+    box-shadow: 0 4px 10px rgb(0 69 34 / 7%);
+  }
+
+  .ms-report h2 {
+    margin: 24px 0 10px;
+    padding-top: 14px;
+  }
+
+  .ms-report h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .ms-report h3 {
+    margin: 16px 0 8px;
+  }
+
+  .ms-report li + li {
+    margin-top: 2px;
+  }
+
+  .ms-report p,
+  .ms-report li {
+    text-align: justify;
+  }
+
+  .ms-report h2 {
+    font-size: 16px;
+  }
+
+  .ms-report h3 {
+    font-size: 13px;
+  }
+
+  .ms-report th,
+  .ms-report td {
+    padding: 7px 8px;
+  }
+
+  .ms-report th {
+    font-size: 10pt;
+  }
+
+  .ms-report td {
+    font-size: 9.5pt;
+    line-height: 1.45;
+  }
+}

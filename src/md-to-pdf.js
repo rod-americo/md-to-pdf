@@ -427,6 +427,18 @@ function renderMermaidStyles(source) {
         height: auto;
         margin: 0 auto;
       }
+
+      .mermaid svg text,
+      .mermaid svg tspan,
+      .mermaid svg foreignObject,
+      .mermaid svg foreignObject *,
+      .mermaid .nodeLabel,
+      .mermaid .edgeLabel {
+        text-align: left !important;
+        text-justify: auto !important;
+        word-spacing: normal !important;
+        letter-spacing: normal !important;
+      }
     </style>
   `;
 }
